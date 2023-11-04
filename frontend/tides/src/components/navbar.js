@@ -9,7 +9,7 @@ export const NavBar = () => {
     return (
         <Box sx={{
             px: 2,
-            py: 2,
+            py: 1,
             backgroundColor: "#6272A4",
         }}>
             <Grid 
