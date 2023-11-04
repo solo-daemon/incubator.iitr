@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Box, Grid, Link, Tabs, Tab } from "@mui/material"
+import { Box, Grid, Link, Tabs, Tab, Typography, IconButton } from "@mui/material"
 import "../css/navbar.css"
 import logo from "../assets/logo.png"
-import { redirect, useNavigate } from "react-router-dom";
-import { blue } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
+import defaultProfilePic from "../assets/default-profile.webp"
+import EditIcon from '@mui/icons-material/Edit';
 
 export const NavBar = () => {
     const navigate = useNavigate()
@@ -44,11 +45,17 @@ export const NavBar = () => {
                 >
                     <Box>
                         <Tabs onChange={handleChange} value={value}
-                            indicatorColor= "primary"
-                            textColor="secondary"
-                            
+                            TabIndicatorProps={{
+                                style: {
+                                    background: "white",
+                                    color: "white"
+                                }
+                            }}
+                            sx={{
+                                color: "white"
+                            }}
                         >
-                            <Tab label="Home" value="home" onClick={()=>{navigate("/")}}/>
+                            <Tab label="Home" value="home" onClick={()=>{navigate("/")}} />
                             <Tab label="Jobs" value="job" onClick={()=>{navigate("job")}}/>
                             <Tab label="Find A CoFounder" value="find-a-cofounder" onClick={()=>{navigate("find-a-cofounder")}}/>
                             <Tab label="Apply" value="apply" onClick={()=>{navigate("apply")}}/>
@@ -58,9 +65,31 @@ export const NavBar = () => {
                 <Grid
                     item
                     xs={4}
-                    justifyContent={"flex-end"}
                 >
-                    profile
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center"
+                        }}
+                    >
+                        <Box
+                            component="img"
+                            src={defaultProfilePic}
+                            width={"2rem"}
+                            sx={{
+                                borderRadius: "50%",
+                            }}
+                        />
+                        <Typography aria-label="username" sx={{
+                            mx: 1
+                        }}>
+                            Amrit Prakash
+                        </Typography>
+                        <IconButton>
+                            <EditIcon ></EditIcon>
+                        </IconButton>
+                    </Box>
                 </Grid>
             </Grid>
         </Box>

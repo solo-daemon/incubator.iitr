@@ -1,19 +1,21 @@
 import React from "react";
 import { Card, Box, CardActions, CardContent, Typography, IconButton } from "@mui/material";
-import { Link } from "react-router-dom";
 import DownloadIcon from '@mui/icons-material/Download';
-export const ReportDownload = (props)=>{
+import { Link } from "react-router-dom";
+export const ResumeDownload = (props)=>{
     return (
         <Card sx={{
-            display: "flex"
+            display: "flex",
+            justifyContent: "space-between",
+            my : 2,
         }}>
             <CardContent>
-                <Typography component="div" variant="h5">
-                    Project Report
+                <Typography component="div" variant="h6">
+                    Resume
                 </Typography>
             </CardContent>
             <CardActions>
-            <Link to="" target="_blank" download>
+                <Link to="" target="_blank" download>
                     <IconButton aria-label="download">
                         <DownloadIcon />
                     </IconButton>

@@ -1,8 +1,18 @@
 import React from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import DoneOutlineTwoToneIcon from '@mui/icons-material/DoneOutlineTwoTone';
+import { ResumeDownload } from "./resumeDownload";
 import defaultProfile from "../../assets/default-profile.webp"
+const bull = (
+    <Box
+      component="span"
+      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+    >
+      •
+    </Box>
+  );
 export const CoFounderModalContent = (props) =>{
+    const skills = ["web-developer","react","django","typescript"]
     return (
         <Box
             sx={{
@@ -21,25 +31,50 @@ export const CoFounderModalContent = (props) =>{
                 sx={{
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    my: 2,
                 }}
             >
-                <Box
-                    component="img"
-                    src={defaultProfile}
-                    sx={{
-                        width: "5rem",
-                        borderRadius: "50%"
-                    }}
-                />
-                <Box
-                    sx={{
-                        
-                    }}
-                >
-                    
+                    <Box
+                        component="img"
+                        src={defaultProfile}
+                        sx={{
+                            width: "5rem",
+                            borderRadius: "50%"
+                        }}
+                    />
                 </Box>
-            </Box>  
+                <Box
+                    sx={{
+                        display: "flex",
+                    }}
+                > 
+                    <Typography>Name: &nbsp;</Typography>
+                    <Typography>Amrit Prakash</Typography>
+                </Box>
+                <Box
+                    sx={{
+                        display: "flex",
+                    }}
+                > 
+                    <Typography>Skills: &nbsp;</Typography>
+                    {skills.map((elem,ind)=>{
+                        return(
+                            <Typography>
+                                {elem}{bull}
+                            </Typography>
+                        )
+                    })}
+                </Box>
+                <Box
+                    sx={{
+                        display: "flex",
+                    }}
+                > 
+                    <Typography>Contact Email: &nbsp;</Typography>
+                    <Typography>a@gmail.com</Typography>
+                </Box>
+                <ResumeDownload />
         </Box>
     )
 }
