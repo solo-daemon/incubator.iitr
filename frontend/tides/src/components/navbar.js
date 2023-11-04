@@ -16,7 +16,10 @@ export const NavBar = () => {
         <Box sx={{
             px: 2,
             py: 1,
-            backgroundColor: "#6272A4",
+            
+            // backgroundColor: "#6272A4",
+            // backgroundColor:"rgb(59 ,130 ,246 ,5)"
+            backgroundColor:"#fff8e1"
         }}>
             <Grid 
                 container 
