@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Grid, Link, Tabs, Tab } from "@mui/material"
 import "../css/navbar.css"
 import logo from "../assets/logo.png"
+import { redirect, useNavigate } from "react-router-dom";
+
 
 export const NavBar = () => {
-
+    const navigate = useNavigate()
     const [value,setValue] = React.useState("home")
+    const handleChange = (event,newValue) => {
+        setValue(newValue)
+    }
+    useEffect(()=>{
+        if(value=="home"){
+            navigate("/")
+        }
+        if(value=="job"){
+            navigate("job")
+        }
+        if(value==="find-a-cofounder"){
+            navigate("find-a-cofounder")
+        }
+        if(value==="apply"){
+            navigate("apply")
+        }
+    },[value,navigate])
     return (
         <Box sx={{
             px: 2,
@@ -38,11 +57,11 @@ export const NavBar = () => {
 
                 >
                     <Box>
-                        <Tabs>
-                            <Tab label="Home"/>
-                            <Tab label="Jobs"/>
-                            <Tab label="Find A CoFounder"/>
-                            <Tab label="Apply"/>
+                        <Tabs onChange={handleChange} value={value}>
+                            <Tab label="Home" value="home"/>
+                            <Tab label="Jobs" value="job"/>
+                            <Tab label="Find A CoFounder" value="find-a-cofounder"/>
+                            <Tab label="Apply" value="apply"/>
                         </Tabs>
                     </Box>
                 </Grid>
