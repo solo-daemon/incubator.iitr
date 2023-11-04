@@ -3,7 +3,7 @@ import { Box, Grid, Link, Tabs, Tab } from "@mui/material"
 import "../css/navbar.css"
 import logo from "../assets/logo.png"
 import { redirect, useNavigate } from "react-router-dom";
-
+import { blue } from "@mui/material/colors";
 
 export const NavBar = () => {
     const navigate = useNavigate()
@@ -11,20 +11,6 @@ export const NavBar = () => {
     const handleChange = (event,newValue) => {
         setValue(newValue)
     }
-    useEffect(()=>{
-        if(value=="home"){
-            navigate("/")
-        }
-        if(value=="job"){
-            navigate("job")
-        }
-        if(value==="find-a-cofounder"){
-            navigate("find-a-cofounder")
-        }
-        if(value==="apply"){
-            navigate("apply")
-        }
-    },[value,navigate])
     return (
         <Box sx={{
             px: 2,
@@ -57,11 +43,15 @@ export const NavBar = () => {
 
                 >
                     <Box>
-                        <Tabs onChange={handleChange} value={value}>
-                            <Tab label="Home" value="home"/>
-                            <Tab label="Jobs" value="job"/>
-                            <Tab label="Find A CoFounder" value="find-a-cofounder"/>
-                            <Tab label="Apply" value="apply"/>
+                        <Tabs onChange={handleChange} value={value}
+                            indicatorColor= "primary"
+                            textColor="secondary"
+                            
+                        >
+                            <Tab label="Home" value="home" onClick={()=>{navigate("/")}}/>
+                            <Tab label="Jobs" value="job" onClick={()=>{navigate("job")}}/>
+                            <Tab label="Find A CoFounder" value="find-a-cofounder" onClick={()=>{navigate("find-a-cofounder")}}/>
+                            <Tab label="Apply" value="apply" onClick={()=>{navigate("apply")}}/>
                         </Tabs>
                     </Box>
                 </Grid>

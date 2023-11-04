@@ -18,7 +18,8 @@ export const Home = () => {
             <Box
                 sx={{
                     display: "flex",
-                    flexWrap: "wrap"
+                    flexWrap: "wrap",
+                    py: 8,
                 }}
             >
                 {

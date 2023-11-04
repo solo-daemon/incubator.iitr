@@ -11,12 +11,12 @@ import './App.css';
 
 function App() {
   return (
-    <BrowserRouter basename='/'>
+    <BrowserRouter>
       <NavBar />
       <Routes>
         <Route path='/' element={<Home />}/>
-        <Route path='/home' element={<Home />}>
-          <Route path="project" element={<Project/>}/>
+        <Route path='home'>
+          <Route path='project' element={<Project/>}/>
         </Route>
         <Route path='job' element={<Job/>}/>
         <Route path='find-a-cofounder' element={<FindACofounder/>}/>

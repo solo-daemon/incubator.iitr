@@ -11,12 +11,12 @@ const bull = (
     </Box>
   );
 
-export const JobCard = (props) => {
+export const FindACoFounderCard = (props) => {
     const skills = ["web-developer","react","django","typescript"]
     return (
         <Card 
             onClick = {()=>{
-                
+                props.handleCoFounderModalOpen(0)
             }}
             sx={{
                 minWidth: "300px",
@@ -38,30 +38,23 @@ export const JobCard = (props) => {
             Web Developer
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {bull}Need Help with website
+            Need Help with website
           </Typography>
-        <Typography variant="body2" color="text.primary">
-            {bull} &#8377; 15000- &#8377; 20000
-        </Typography>
         <Box sx={{
             display: "flex",
-            flexWrap: "wrap"
+            flexWrap: "wrap",
+            my: 1,
         }}>
             {skills.map((elem,ind)=>{
                 return(
                     <Typography variant="body2" color="#44475A" >
-                        {bull} {elem}
+                        {elem}{bull} 
                     </Typography>
                 )
             })}
         </Box>
         </CardContent>  
       </CardActionArea>
-      <CardActions disableSpacing>
-            <Button size="small" onClick={()=>{props.handleApplyModalOpen(0)}}>
-                Apply
-            </Button>
-      </CardActions>
         </Card>
     )
 }
