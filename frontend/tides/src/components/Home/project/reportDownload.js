@@ -5,7 +5,10 @@ import DownloadIcon from '@mui/icons-material/Download';
 export const ReportDownload = (props)=>{
     return (
         <Card sx={{
-            display: "flex"
+            display: "flex",
+            maxWidth: 400,
+            justifyContent: "space-between",
+            border: "2px solid black"
         }}>
             <CardContent>
                 <Typography component="div" variant="h5">
