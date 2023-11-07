@@ -36,19 +36,19 @@ export const ProjectJobCard = (props) => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Web Developer
+            {props.job_role}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {bull}Need Help with website
+            {bull}{props.job_description}
           </Typography>
         <Typography variant="body2" color="text.primary">
-            {bull} &#8377; 15000- &#8377; 20000
+            {bull} &#8377; {props.starting_salary}- &#8377; {props.maximum_salary}
         </Typography>
         <Box sx={{
             display: "flex",
             flexWrap: "wrap"
         }}>
-            {skills.map((elem,ind)=>{
+            {props.skills_required.split(/\s+/).map((elem,ind)=>{
                 return(
                     <Typography variant="body2" color="#44475A" >
                         {bull} {elem}
@@ -65,17 +65,17 @@ export const ProjectJobCard = (props) => {
         }}
       >
         <Tooltip title="applicants">
-            <IconButton onClick={()=>{props.handleJobApplicantModalOpen()}}>
+            <IconButton onClick={()=>{props.handleJobApplicantModalOpen(props.id)}}>
                 <GroupsIcon/>
                 <Typography variant="body2" sx={{
                   mx: 1
                 }}>
-                  22
+                  {props.applicant.length}
                 </Typography>
             </IconButton>
         </Tooltip>
           <Tooltip title="remove job">
-            <IconButton onClick={()=>{props.handleDeleteJobModalOpen()}}>
+            <IconButton onClick={()=>{props.handleDeleteJobModalOpen(props.id)}}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>

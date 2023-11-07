@@ -16,7 +16,7 @@ export const FindACoFounderCard = (props) => {
     return (
         <Card 
             onClick = {()=>{
-                props.handleCoFounderModalOpen(0)
+                props.handleCoFounderModalOpen(props.ind)
             }}
             sx={{
                 minWidth: "300px",
@@ -30,15 +30,15 @@ export const FindACoFounderCard = (props) => {
         <CardMedia
           component="img"
           height="140"
-          image={defaulttProjectPic}
+          image={props.profile_pic_url}
           alt="green iguana"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Web Developer
+            {props.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Need Help with website
+            {props.email}
           </Typography>
         <Box sx={{
             display: "flex",

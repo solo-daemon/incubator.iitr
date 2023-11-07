@@ -8,8 +8,9 @@ import { Apply } from './pages/Apply';
 import { NavBar } from './components/navbar';
 import { Footer } from './components/footer';
 import './App.css';
-
+import { checkUrl } from './utilities/checkUrl';
 function App() {
+  checkUrl()
   return (
     <BrowserRouter>
       <NavBar />

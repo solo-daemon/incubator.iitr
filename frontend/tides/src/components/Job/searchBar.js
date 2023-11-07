@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { TextField, Box, InputAdornment } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-export const SearchBar = () => {
-    const [searchText,setSearchText] = React.useState("")
+export const SearchBar = (props) => {
+
     const handleChange = (event) => {
-        setSearchText(event.target.value)
+        props.setSearchText(event.target.value)
     }
     useEffect(()=>{
         
-    },[searchText])
+    },[props.searchText])
     return (
         <Box>
-            <TextField label="search" placeholder="roles or skills" onChange={handleChange} value={searchText} 
+            <TextField label="search" placeholder="roles or skills" onChange={handleChange} value={props.searchText} 
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">

@@ -1,17 +1,41 @@
 import React, { useEffect } from "react";
-import { Box, Grid, Link, Tabs, Tab, Typography, IconButton } from "@mui/material"
+import { Box, Grid, Link, Tabs, Tab, Typography, IconButton, Button } from "@mui/material"
 import "../css/navbar.css"
 import logo from "../assets/logo.png"
 import { useNavigate } from "react-router-dom";
 import defaultProfilePic from "../assets/default-profile.webp"
 import EditIcon from '@mui/icons-material/Edit';
+import { checkTokenAvailability } from "../utilities/checkTokenAvailability";
+import { login } from "../api/login";
 
+import BackendClient from "../api/BackendClient";
+import { logout } from "../api/logout";
 export const NavBar = () => {
     const navigate = useNavigate()
     const [value,setValue] = React.useState("home")
+    const [userData,setUserData] = React.useState()
+    const [isTokenAvailable,setIsTokenAvailable]=React.useState(false)
     const handleChange = (event,newValue) => {
         setValue(newValue)
     }
+
+const getUserData = () =>{
+    const token = localStorage["token"]
+    BackendClient.get(
+        `tides/user?eno=${token}`
+    ).then((response)=>{
+        setUserData(response.data[0])
+    }).catch((e)=>{
+        console.log(e)
+    })
+}
+    useEffect(()=>{
+        getUserData()
+        const tokenAvailability = checkTokenAvailability()
+        if(isTokenAvailable){
+            setIsTokenAvailable(tokenAvailability)
+        }
+    },[])
     return (
         <Box sx={{
             px: 2,
@@ -69,6 +93,23 @@ export const NavBar = () => {
                     item
                     xs={4}
                 >
+                    {!userData ? 
+                    <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        alignItems: "center"
+                    }}
+                    >
+                        <Button
+                            onClick={()=>{
+                                login()
+                            }}
+                        >
+                            Login
+                        </Button>
+                    </Box>
+                    :
                     <Box
                         sx={{
                             display: "flex",
@@ -78,7 +119,7 @@ export const NavBar = () => {
                     >
                         <Box
                             component="img"
-                            src={defaultProfilePic}
+                            src={userData.profile_pic_url}
                             width={"2rem"}
                             sx={{
                                 borderRadius: "50%",
@@ -87,12 +128,14 @@ export const NavBar = () => {
                         <Typography aria-label="username" sx={{
                             mx: 1
                         }}>
-                            Amrit Prakash
+                            {userData.name}
                         </Typography>
-                        <IconButton>
-                            <EditIcon ></EditIcon>
-                        </IconButton>
-                    </Box>
+                        <Button onClick={()=>{
+                            logout()
+                        }}>
+                            Logout
+                        </Button>
+                    </Box>}
                 </Grid>
             </Grid>
         </Box>

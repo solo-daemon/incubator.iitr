@@ -16,7 +16,7 @@ export const ReportDownload = (props)=>{
                 </Typography>
             </CardContent>
             <CardActions>
-            <Link to="" target="_blank" download>
+            <Link to={props.report_url} target="_blank" download>
                     <IconButton aria-label="download">
                         <DownloadIcon />
                     </IconButton>

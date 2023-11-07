@@ -12,6 +12,7 @@ const bull = (
     </Box>
   );
 export const CoFounderModalContent = (props) =>{
+    const [coFounderData,setCoFounderData] = React.useState(props.coFounderData)
     const skills = ["web-developer","react","django","typescript"]
     return (
         <Box
@@ -37,7 +38,7 @@ export const CoFounderModalContent = (props) =>{
             >
                     <Box
                         component="img"
-                        src={defaultProfile}
+                        src={coFounderData.profile_pic_url}
                         sx={{
                             width: "5rem",
                             borderRadius: "50%"
@@ -50,7 +51,7 @@ export const CoFounderModalContent = (props) =>{
                     }}
                 > 
                     <Typography>Name: &nbsp;</Typography>
-                    <Typography>Amrit Prakash</Typography>
+                    <Typography>{coFounderData.name}</Typography>
                 </Box>
                 <Box
                     sx={{
@@ -72,7 +73,7 @@ export const CoFounderModalContent = (props) =>{
                     }}
                 > 
                     <Typography>Contact Email: &nbsp;</Typography>
-                    <Typography>a@gmail.com</Typography>
+                    <Typography>{coFounderData.email}</Typography>
                 </Box>
                 <ResumeDownload />
         </Box>

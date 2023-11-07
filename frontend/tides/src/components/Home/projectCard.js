@@ -7,7 +7,7 @@ export const ProjectCard = (props) => {
     return (
         <Card 
             onClick = {()=>{
-                navigate("/home/project")
+                navigate(`/home/project?id=${props.id}`)
             }}
             sx={{
                 minWidth: "300px",
@@ -26,11 +26,10 @@ export const ProjectCard = (props) => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Lizard
+            {props.project_name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {props.project_description}
           </Typography>
         </CardContent>
       </CardActionArea>

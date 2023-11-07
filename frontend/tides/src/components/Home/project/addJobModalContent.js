@@ -1,14 +1,32 @@
 import { Box, Button, FormControl, Input, Slider, Typography } from "@mui/material";
 import React from "react";
-
+import BackendClient from "../../../api/BackendClient";
 export const AddJobModalContent = (props) => {
     const [jobRole,setJobRole] = React.useState("")
     const [jobDescription,setJobDescription] = React.useState("")
     const [startingSalary,setStartingSalary] = React.useState()
     const [maximumSalary,setMaximumSalary] = React.useState()
     const [skills,setSkills] = React.useState("")
-    const jobJson = () => {
-
+    const createJobJson = () =>{
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id')
+        let data = {
+            "job_role": jobRole,
+            "job_description": jobDescription,
+            "starting_salary": startingSalary,
+            "maximum_salary": maximumSalary,
+            "skills_required": skills,
+            "project": parseInt(id),
+            "applicant": [21112024,],
+        }
+        console.log(data)
+        BackendClient.post(
+            "tides/job/",data
+        ).then((response)=>{
+            console.log(response)
+        }).catch((e)=>{
+            console.log(e)
+        })
     }
     return(
         <Box
@@ -100,6 +118,7 @@ export const AddJobModalContent = (props) => {
                 type="submit"
                 onClick={()=>{
                     props.handleAddJobModalClose()
+                    createJobJson()
                 }}
                 >
                     Add

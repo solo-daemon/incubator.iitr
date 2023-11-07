@@ -3,7 +3,19 @@ import React from "react";
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import { pink } from '@mui/material/colors';
+import BackendClient from "../../../api/BackendClient";
 export const DeleteJobModalContent = (props) => {
+    const deleteJob = () =>{
+        const id = props.id
+        BackendClient.delete(
+            `tides/job/${id}`
+        ).then((response)=>{
+            window.location.reload()
+        }).catch((e)=>{
+            console.log(e)
+        })
+    }
+    
     return(
         <Box
             sx={{
@@ -24,7 +36,7 @@ export const DeleteJobModalContent = (props) => {
                     All data and applicants for this job will be lost. Continue?
                 </Typography>
                 <Box>
-                    <IconButton onClick={()=>{props.handleDeleteJobModalClose()}}>
+                    <IconButton onClick={()=>{deleteJob();props.handleDeleteJobModalClose()}}>
                         <DoneOutlineIcon color="success"/>
                     </IconButton>
                     <IconButton onClick={()=>{props.handleDeleteJobModalClose()}}>

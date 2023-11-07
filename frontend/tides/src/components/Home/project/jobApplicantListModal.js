@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Divider, IconButton, Paper, Typography, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import DownloadIcon from '@mui/icons-material/Download';
 import defaultProfilePic from "../../../assets/default-profile.webp"
+import BackendClient from "../../../api/BackendClient";
 const ApplicantData = (props)=>{
     return(
         <Box>
@@ -64,8 +65,22 @@ const ApplicantData = (props)=>{
     )
 }
 
-export const JobApplicantListModal = () => {
-    const applicantArray= [1,2,3,4,4,5,5,4,3,3,3,3,3,3,3,3,3,3,3]
+export const JobApplicantListModal = (props) => {
+    console.log(props.data)
+    const [applicantArray,setApplicantArray]=React.useState(props.data)
+    const [applicantData,setApplicantData] = React.useState()
+    const getApplicantData= () =>{
+        BackendClient.post(
+            ''
+        ).then((response)=>{
+            console.log(response)
+        }).catch((e)=>{
+            console.log(e)
+        })
+    }
+    useEffect(()=>{
+        getApplicantData()
+    })
     return(
         <Box
             sx={{
@@ -89,11 +104,19 @@ export const JobApplicantListModal = () => {
                     >
                         Applicants
                     </Typography>
-                    {applicantArray.map((elem,ind)=>{
-                        return(
-                            <ApplicantData />
-                        )
-                    })}
+                    {   applicantArray ?
+                        
+                        <Box>
+                        {applicantArray.map((elem,ind)=>{
+                            return(
+                                <ApplicantData {...elem}/>
+                            )
+                        })}
+                    </Box> :
+                    <Box>
+                        No applicants yet
+                    </Box>
+                    }
             </Box>
     )
 }

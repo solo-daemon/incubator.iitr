@@ -1,3 +1,3 @@
-from tides.models.user import User
-from tides.models.job import Job
-from tides.models.project import Project
+from .users import User
+from .projects import Projects
+from .jobs import Job

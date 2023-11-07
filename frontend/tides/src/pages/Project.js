@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Container, Divider, IconButton, Typography, Modal, Tooltip,Grid } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { AddJobModalContent } from "../components/Home/project/addJobModalContent";
@@ -8,33 +8,36 @@ import { DeleteJobModalContent } from "../components/Home/project/deleteJobModal
 import defaultProjectPic from "../assets/default-project-pic.png"
 import { ReportDownload } from "../components/Home/project/reportDownload";
 import { JobApplicantListModal } from "../components/Home/project/jobApplicantListModal";
+import { checkTokenAvailability } from "../utilities/checkTokenAvailability";
+import BackendClient from "../api/BackendClient";
 export const Project = () =>{
     const [addJobModalOpen,setAddJobModalOpen] = React.useState(false)
     const [deleteJobModalOpen,setDeleteJobModalOpen] = React.useState(false)
     const [jobApplicantModalOpen,setJobApplicantModalOpen] = React.useState(false)
+    const [isTokenAvailable,setIsTokenAvailable] = React.useState(false)
+    const [projectData,setProjectData] = React.useState()
+    const [projectJobData,setProjectJobData] = React.useState()
+    const [deleteJobId,setDeleteJobId] = React.useState()
+    const [applicantJobArray,setApplicantJobArray] = React.useState();
     const handleAddJobModalOpen = () => {
         setAddJobModalOpen(true)
     }
     const handleAddJobModalClose = () =>{
         setAddJobModalOpen(false)
     }
-    const handleDeleteJobModalOpen = () => {
+    const handleDeleteJobModalOpen = (id) => {
+        setDeleteJobId(id)
         setDeleteJobModalOpen(true)
     }
     const handleDeleteJobModalClose = () =>{
         setDeleteJobModalOpen(false)
     }
-    const handleJobApplicantModalOpen = () =>{
+    const handleJobApplicantModalOpen = (id) =>{
+        setApplicantJobArray(projectJobData[id].applicant)
         setJobApplicantModalOpen(true)
     }
     const handleJobApplicantModalClose = () =>{
         setJobApplicantModalOpen(false)
-    }
-    const projectJobs = [1,2,3,4]
-    const data = {
-        name : "Incubator.iitr",
-        description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
-    
     }
 
     const limitStringToWords=(inputString, maxWords=40)=> {
@@ -47,6 +50,37 @@ export const Project = () =>{
           return `${limitedString} ...`;
         }
       }
+      const getProjectData = () =>{
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id')
+            BackendClient.get(
+                `tides/project?id=${id}`
+            ).then((response)=>{
+                setProjectData(response.data[0])
+            }).catch((e)=>{
+                console.log(e)
+            })
+
+    }
+    const getProjectJobData = () =>{
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id')
+        BackendClient.get(
+                `tides/job?projectId=${id}`
+        ).then((response)=>{
+            setProjectJobData(response.data)
+        }).catch((e)=>{
+            console.log(e)
+        })
+    }
+      useEffect(()=>{
+        const tokenAvailability = checkTokenAvailability
+        setIsTokenAvailable(tokenAvailability)
+        if(tokenAvailability){
+            getProjectData()
+            getProjectJobData()
+        }
+      },[])
     return (
         <Container>
             <Modal
@@ -59,13 +93,13 @@ export const Project = () =>{
                 open={deleteJobModalOpen}
                 onClose={handleDeleteJobModalClose}
             >
-                <DeleteJobModalContent handleDeleteJobModalClose={handleDeleteJobModalClose}/>
+                <DeleteJobModalContent handleDeleteJobModalClose={handleDeleteJobModalClose} id={deleteJobId}/>
             </Modal>
             <Modal
                 open = {jobApplicantModalOpen}
                 onClose={handleJobApplicantModalClose}
             >
-                <JobApplicantListModal />
+                <JobApplicantListModal data={applicantJobArray}/>
             </Modal>
             <Box
                 sx={{
@@ -74,25 +108,32 @@ export const Project = () =>{
             >
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-                        <Typography variant="h3"
-                            sx={{
-                                mb: 2
-                            }}
-                        >
-                            {data.name}
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                        >
-                            {limitStringToWords(data.description)}
-                        </Typography>
-                        <Box
-                            sx={{
-                                mt: 2,
-                            }}
-                        >
-                            <ReportDownload />
-                        </Box>
+                        {projectData?
+                            <Box>
+                                <Typography variant="h3"
+                                    sx={{
+                                        mb: 2
+                                    }}
+                                >
+                                    {projectData.project_name}
+                                </Typography>
+                                <Typography
+                                    variant="body1"
+                                >
+                                    {limitStringToWords(projectData.project_description)}
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        mt: 2,
+                                    }}
+                                >
+                                    <ReportDownload report_url={projectData.project_report}/>
+                                </Box>
+                            </Box>:
+                            <Box>
+                                ProjectData not available
+                            </Box>
+                        }
                     </Grid>
                     <Grid item xs={4}
                         sx={{
@@ -133,16 +174,23 @@ export const Project = () =>{
                         </Tooltip>
                     </Box>
                     <Divider />
-                    <Box sx={{
+                    {projectJobData?
+                        
+                        <Box sx={{
                         display: "flex",
                         flexWrap: "wrap",
                     }}>
-                        {projectJobs.map((elem,ind)=>{
+                        {projectJobData.map((elem,ind)=>{
                             return(
-                                <ProjectJobCard handleDeleteJobModalOpen={handleDeleteJobModalOpen} handleJobApplicantModalOpen={handleJobApplicantModalOpen}/>
+                                <ProjectJobCard handleDeleteJobModalOpen={handleDeleteJobModalOpen} handleJobApplicantModalOpen={handleJobApplicantModalOpen} {...elem}/>
                             )
                         })}
+                    </Box>:
+                    <Box>
+                        No Jobs
                     </Box>
+                    
+                }
             </Box>
         </Container>
     )
